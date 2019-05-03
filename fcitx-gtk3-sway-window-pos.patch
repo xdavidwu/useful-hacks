@@ -1,0 +1,22 @@
+diff --git a/src/frontend/gtk2/fcitximcontext.c b/src/frontend/gtk2/fcitximcontext.c
+index 6d83b31a..ec29d71b 100644
+--- a/src/frontend/gtk2/fcitximcontext.c
++++ b/src/frontend/gtk2/fcitximcontext.c
+@@ -988,6 +988,17 @@ static gboolean _set_cursor_location_internal(FcitxIMContext *fcitxcontext) {
+             area.y = py;
+             window = parent;
+         }
++	if (getenv("SWAYSOCK")) {
++		FILE *in=popen("swaymsg -t get_tree | jq '.nodes[]|..|select(.focused? == true)|.rect.x, .rect.y'","r");
++		if (in != NULL) {
++			int x,y;
++			if (fscanf(in,"%d %d",&x,&y)==2) {
++				area.x += x;
++				area.y += y;
++			}
++		}
++		pclose(in);
++	}
+     } else
+ #endif
+     {
