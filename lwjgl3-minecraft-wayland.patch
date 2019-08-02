@@ -1,0 +1,46 @@
+diff --git a/modules/lwjgl/glfw/src/generated/java/org/lwjgl/glfw/GLFW.java b/modules/lwjgl/glfw/src/generated/java/org/lwjgl/glfw/GLFW.java
+index 00dd6922d..49568b333 100644
+--- a/modules/lwjgl/glfw/src/generated/java/org/lwjgl/glfw/GLFW.java
++++ b/modules/lwjgl/glfw/src/generated/java/org/lwjgl/glfw/GLFW.java
+@@ -1710,6 +1710,9 @@ public class GLFW {
+ 
+     /** Unsafe version of: {@link #glfwCreateWindow CreateWindow} */
+     public static long nglfwCreateWindow(int width, int height, long title, long monitor, long share) {
++	glfwWindowHint(GLFW_FOCUS_ON_SHOW,0);
++	glfwWindowHint(GLFW_FOCUSED,0);
++	glfwWindowHint(GLFW_ALPHA_BITS,0); // https://github.com/glfw/glfw/issues/1434
+         long __functionAddress = Functions.CreateWindow;
+         return invokePPPP(width, height, title, monitor, share, __functionAddress);
+     }
+@@ -2065,7 +2068,8 @@ public class GLFW {
+      * @since version 3.2
+      */
+     public static void glfwSetWindowIcon(@NativeType("GLFWwindow *") long window, @Nullable @NativeType("GLFWimage const *") GLFWImage.Buffer images) {
+-        nglfwSetWindowIcon(window, remainingSafe(images), memAddressSafe(images));
++        return;
++        //nglfwSetWindowIcon(window, remainingSafe(images), memAddressSafe(images));
+     }
+ 
+     // --- [ glfwGetWindowPos ] ---
+@@ -2573,11 +2577,12 @@ public class GLFW {
+      * @since version 3.2
+      */
+     public static void glfwFocusWindow(@NativeType("GLFWwindow *") long window) {
+-        long __functionAddress = Functions.FocusWindow;
++        return;
++        /*long __functionAddress = Functions.FocusWindow;
+         if (CHECKS) {
+             check(window);
+         }
+-        invokePV(window, __functionAddress);
++        invokePV(window, __functionAddress);*/
+     }
+ 
+     // --- [ glfwRequestWindowAttention ] ---
+@@ -4877,4 +4882,4 @@ public class GLFW {
+         invokePPPV(window, xpos, ypos, __functionAddress);
+     }
+ 
+-}
+\ No newline at end of file
++}
